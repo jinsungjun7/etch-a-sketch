@@ -40,7 +40,11 @@ function hover() {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell) => {
         cell.addEventListener('mouseenter', (e) => {
-            cell.style.backgroundColor = 'black'
+            let v1 = Math.floor(Math.random()*256);
+            console.log(v1);
+            let v2 = Math.floor(Math.random()*256);
+            let v3 = Math.floor(Math.random()*256);
+            cell.style.backgroundColor = `rgb(${v1}, ${v2}, ${v3})`;
         });
         cell.addEventListener('mouseleave', (e) => {
             cell.style.backgroundColor = '';
