@@ -1,0 +1,25 @@
+body {
+    overflow:auto;
+    display:flex;
+    flex-direction: column;
+    margin:50px;
+    justify-content:center;
+    align-items:center;
+    gap:32px;
+    
+
+}
+
+.container {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    width: 256px;
+    height:256px; 
+    border: .1px solid black;
+    
+}
+
+button {
+    max-width:100px;
+}
