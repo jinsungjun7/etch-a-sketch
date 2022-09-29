@@ -39,13 +39,82 @@ function gridClear() {
 function hover() {
     const cells = document.querySelectorAll('.cell');
     cells.forEach((cell) => {
+
+        let light = window.getComputedStyle(cell).backgroundColor;
+        console.log(light);
+        light = getHSLfromRGB(light);
+        console.log(light);
         cell.addEventListener('mouseenter', (e) => {
-            cell.style.backgroundColor = 'black'
-        });
-        cell.addEventListener('mouseleave', (e) => {
-            cell.style.backgroundColor = '';
+            if (light < .1) {
+                cell.style.backgroundColor = `hsl(0, 0%, 10%)`;
+            } else {
+                cell.style.backgroundColor = `hsl(0, 0%, ${light+10}%)`;
+                console.log("hi")
+            }
         });
     });
+}
+
+function getHSLfromRGB(rgba) {
+    let sep = rgba.indexOf(",") > -1 ? "," : " ";
+    rgba = rgba.substr(5).split(")")[0].split(sep);
+
+    // Strip the slash if using space-separated syntax
+    if (rgba.indexOf("/") > -1) 
+      rgba.splice(3,1);
+
+    for (let R in rgba) {
+      let r = rgba[R];
+      if (r.indexOf("%") > -1) {
+        let p = r.substr(0,r.length - 1) / 100;
+
+        if (R < 3) { 
+          rgba[R] = Math.round(p * 255);
+        } else {
+          rgba[R] = p;
+        }
+      }
+    }
+
+    // Make r, g, and b fractions of 1
+    let r = rgba[0] / 255,
+        g = rgba[1] / 255,
+        b = rgba[2] / 255,
+        a = rgba[3];
+    // Make r, g, and b fractions of 1
+  r /= 255;
+  g /= 255;
+  b /= 255;
+
+  // Find greatest and smallest channel values
+  let cmin = Math.min(r,g,b),
+      cmax = Math.max(r,g,b),
+      delta = cmax - cmin,
+      h = 0,
+      s = 0,
+      l = 0;
+  // Calculate hue
+  // No difference
+  if (delta == 0)
+    h = 0;
+  // Red is max
+  else if (cmax == r)
+    h = ((g - b) / delta) % 6;
+  // Green is max
+  else if (cmax == g)
+    h = (b - r) / delta + 2;
+  // Blue is max
+  else
+    h = (r - g) / delta + 4;
+
+  h = Math.round(h * 60);
+    
+  // Make negative hues positive behind 360°
+  if (h < 0)
+      h += 360;
+return l;
+
+
 }
 
 const btn = document.querySelector('.gridSize');
